@@ -1,0 +1,22 @@
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary
+.claude-logs.txt
+.claude-prompt-temp.txt
+.claude-task.md
