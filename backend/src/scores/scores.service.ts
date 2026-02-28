@@ -10,41 +10,61 @@ export class ScoresService {
   ) {}
 
   async submitScore(userId: string, score: number) {
+    console.log('[ScoresService] Submit score started', { userId, score });
+
+    // Get current user first
+    const user = await this.usersService.findById(userId);
+    if (!user) {
+      console.warn('[ScoresService] User not found while submitting score', { userId });
+      throw new Error('User not found');
+    }
+
     // Save score record
-    await this.prisma.score.create({
+    const createdScore = await this.prisma.score.create({
       data: {
         userId,
         score,
       },
     });
-
-    // Get current user
-    const user = await this.usersService.findById(userId);
+    console.log('[ScoresService] Score record saved', { userId, score, scoreId: createdScore.id });
 
     // Update high score if needed
     if (score > user.highScore) {
+      console.log('[ScoresService] New high score detected', {
+        userId,
+        previousHighScore: user.highScore,
+        newHighScore: score,
+      });
       await this.usersService.updateHighScore(userId, score);
-      return {
-        success: true,
-        newHighScore: true,
-        highScore: score,
-      };
     }
 
-    return {
-      success: true,
-      newHighScore: false,
+    console.log('[ScoresService] Score submitted successfully', {
+      userId,
       highScore: user.highScore,
+    });
+
+    // Return the score in the format expected by the Android app
+    return {
+      id: createdScore.id,
+      userId: createdScore.userId,
+      username: user.username,
+      score: createdScore.score,
+      createdAt: createdScore.timestamp.toISOString(),
     };
   }
 
   async getLeaderboard(limit: number = 50) {
+    console.log('[ScoresService] Fetching leaderboard', { limit });
     const entries = await this.usersService.getLeaderboard(limit);
+    console.log('[ScoresService] Leaderboard fetched', { count: entries.length });
 
-    return entries.map((entry, index) => ({
-      rank: index + 1,
+    // Return in the format expected by the Android app
+    return entries.map((entry) => ({
+      id: entry.id,
+      userId: entry.id,
       username: entry.username,
-      highScore: entry.highScore,
+      score: entry.highScore,
+      createdAt: entry.createdAt.toISOString(),
     }));
   }
 }

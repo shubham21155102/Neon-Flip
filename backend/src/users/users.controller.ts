@@ -9,6 +9,9 @@ export class UsersController {
 
   @Get('me')
   getProfile(@Request() req) {
+    console.log('[UsersController] /users/me request received', {
+      userId: req.user?.id,
+    });
     return this.usersService.findById(req.user.id);
   }
 }

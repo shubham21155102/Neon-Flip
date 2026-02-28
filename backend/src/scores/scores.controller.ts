@@ -10,11 +10,16 @@ export class ScoresController {
 
   @Post('submit')
   async submitScore(@Request() req, @Body() submitScoreDto: SubmitScoreDto) {
+    console.log('[ScoresController] Submit score request received', {
+      userId: req.user?.id,
+      score: submitScoreDto.score,
+    });
     return this.scoresService.submitScore(req.user.id, submitScoreDto.score);
   }
 
   @Get('leaderboard')
   async getLeaderboard() {
+    console.log('[ScoresController] Leaderboard request received');
     return this.scoresService.getLeaderboard();
   }
 }

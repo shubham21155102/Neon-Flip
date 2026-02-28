@@ -3,6 +3,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  console.log('[Main] Starting Neon Flip API bootstrap');
   const app = await NestFactory.create(AppModule);
 
   // Enable CORS for React Native app
@@ -10,6 +11,7 @@ async function bootstrap() {
     origin: '*',
     credentials: true,
   });
+  console.log('[Main] CORS enabled');
 
   // Global validation pipe
   app.useGlobalPipes(
@@ -18,10 +20,11 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  console.log('[Main] Global validation pipe configured');
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
 
-  console.log(`🚀 Neon Flip API running on port ${port}`);
+  console.log(`[Main] 🚀 Neon Flip API running on port ${port}`);
 }
 bootstrap();
