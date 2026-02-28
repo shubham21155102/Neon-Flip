@@ -20,3 +20,28 @@ Thumbs.db
 .claude-logs.txt
 .claude-prompt-temp.txt
 .claude-task.md
+
+# Android
+*.iml
+.gradle/
+local.properties
+*.hprof
+.cxx/
+*.apk
+*.ap_
+*.aab
+.android/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.log
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
+captures/
+
+# Android Profiling
+*.hprof
