@@ -45,3 +45,5 @@ captures/
 
 # Android Profiling
 *.hprof
+
+dist/**
