@@ -116,11 +116,17 @@ npx expo start
 ### 2. Using Docker (Recommended)
 
 ```bash
-# Start PostgreSQL and backend
-docker-compose up -d
+# Start PostgreSQL and backend (development)
+docker compose -f docker-compose.dev.yml up -d
 
 # The API will be available at http://localhost:3000
 # Database at localhost:5432
+```
+
+For production compose (using pushed image from GHCR):
+
+```bash
+docker compose -f docker-compose.prod.yml up -d
 ```
 
 ### 3. Running the Game
@@ -259,6 +265,29 @@ Or use Docker:
 docker build -t neon-flip-api ./backend
 docker run -p 3000:3000 neon-flip-api
 ```
+
+## 🐳 GitHub Packages (GHCR)
+
+This repository includes a GitHub Actions pipeline at:
+
+- `.github/workflows/publish-backend-image.yml`
+
+It builds `backend/Dockerfile` and pushes images to:
+
+- `ghcr.io/<owner>/neon-flip-api`
+
+It runs on:
+
+- Push to `main` or `master`
+- Git tags matching `v*`
+- Manual trigger (`workflow_dispatch`)
+
+Generated tags include:
+
+- `latest` (default branch only)
+- branch name
+- git tag name
+- `sha-<commit>`
 
 ## 🌍 Environment Variables
 

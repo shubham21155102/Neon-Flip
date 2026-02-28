@@ -5,13 +5,13 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: neon-flip-api
+    container_name: neon-flip-api-dev
     restart: unless-stopped
     environment:
       DATABASE_URL: ${DATABASE_URL}
-      JWT_SECRET: ${JWT_SECRET}
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me}
       JWT_EXPIRES_IN: 7d
       PORT: 3000
-      NODE_ENV: production
+      NODE_ENV: development
     ports:
-      - "3000:3000"
+      - '3000:3000'

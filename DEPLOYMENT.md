@@ -83,7 +83,27 @@ docker run -d \
   neon-flip-api
 
 # Or use Docker Compose
-docker-compose up -d
+docker compose -f docker-compose.dev.yml up -d
+```
+
+### Option 5: GitHub Container Registry (GHCR)
+
+The project includes a workflow that publishes the backend image to GitHub Packages:
+
+- Workflow file: `.github/workflows/publish-backend-image.yml`
+- Registry image: `ghcr.io/<owner>/neon-flip-api`
+
+Deployment with published image:
+
+```bash
+# Pull and run the published GHCR image via compose
+docker compose -f docker-compose.prod.yml up -d
+```
+
+If needed, set a specific image tag:
+
+```bash
+BACKEND_IMAGE=ghcr.io/<owner>/neon-flip-api:sha-<commit> docker compose -f docker-compose.prod.yml up -d
 ```
 
 ## Mobile App Deployment
